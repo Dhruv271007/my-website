@@ -1,0 +1,406 @@
+
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dhruv — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0c10;
+    --bg-2: #0f1319;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.09);
+    --text: #e9e7e1;
+    --text-dim: #8b93a1;
+    --amber: #ffb020;
+    --teal: #23d9c0;
+    --line: rgba(255,255,255,0.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  ::selection{background:var(--amber);color:#0a0c10;}
+
+  /* ambient background grid + drifting nodes */
+  .bg-grid{
+    position:fixed; inset:0; z-index:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 100%);
+    opacity:0.5;
+  }
+  .node{
+    position:fixed; border-radius:50%; z-index:0; pointer-events:none;
+    filter: blur(1px);
+    animation: drift 18s ease-in-out infinite;
+  }
+  @keyframes drift{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(30px,-40px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .node{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 20px 40px;
+    background: rgba(10,12,16,0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600; font-size:1.05rem; letter-spacing:0.02em;
+  }
+  .logo span{color:var(--amber);}
+  nav a{
+    color: var(--text-dim); text-decoration:none; font-size:0.9rem;
+    margin-left:28px; transition: color 0.2s;
+    font-family:'JetBrains Mono', monospace;
+  }
+  nav a:hover{color:var(--text);}
+
+  .ticker-wrap{
+    position:relative; z-index:10;
+    border-bottom:1px solid var(--line);
+    background: var(--bg-2);
+    overflow:hidden;
+    white-space:nowrap;
+    padding: 9px 0;
+  }
+  .ticker{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem;
+    color: var(--text-dim);
+    animation: scroll-left 32s linear infinite;
+  }
+  .ticker span{ margin-right: 40px; }
+  .up{color:var(--teal);}
+  .flat{color:var(--amber);}
+  @keyframes scroll-left{
+    0%{ transform: translateX(0); }
+    100%{ transform: translateX(-50%); }
+  }
+
+  main{ position:relative; z-index:5; }
+
+  section{
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 110px 24px;
+  }
+
+  .hero{ padding-top:120px; padding-bottom:90px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--amber); font-size:0.82rem; letter-spacing:0.08em;
+    text-transform:uppercase; margin-bottom:20px; display:block;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    line-height:1.05; font-weight:700; letter-spacing:-0.01em;
+    max-width:800px;
+  }
+  h1 .accent{color:var(--amber);}
+  .hero p.sub{
+    margin-top:26px; max-width:560px; font-size:1.08rem;
+    color: var(--text-dim); line-height:1.6;
+  }
+  .hero-stats{
+    display:flex; gap:0; margin-top:52px; border-top:1px solid var(--line);
+  }
+  .stat{
+    flex:1; padding: 22px 20px 0 0; border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .num{
+    font-family:'JetBrains Mono', monospace; font-size:1.6rem; font-weight:600;
+    color:var(--teal);
+  }
+  .stat .label{ font-size:0.78rem; color:var(--text-dim); margin-top:6px; }
+
+  .section-head{ margin-bottom: 44px; }
+  .section-head .eyebrow{ margin-bottom:10px; }
+  .section-head h2{
+    font-family:'Space Grotesk', sans-serif; font-size:1.9rem; font-weight:600;
+  }
+
+  .card{
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 18px;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .card:hover{
+    transform: translateY(-4px);
+    border-color: rgba(255,176,32,0.35);
+    background: rgba(255,255,255,0.06);
+  }
+  .card-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap: 16px; margin-bottom:12px;
+  }
+  .card h3{ font-family:'Space Grotesk', sans-serif; font-size:1.2rem; font-weight:600; }
+  .tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    color:var(--amber); border:1px solid rgba(255,176,32,0.35);
+    padding:4px 9px; border-radius:100px; white-space:nowrap;
+  }
+  .card p{ color:var(--text-dim); font-size:0.96rem; line-height:1.6; }
+  .card .meta{
+    margin-top:14px; font-family:'JetBrains Mono', monospace;
+    font-size:0.78rem; color:var(--teal);
+  }
+
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:720px){ .grid-2{grid-template-columns:1fr;} }
+
+  .comp-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:16px 0; border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace; font-size:0.9rem;
+  }
+  .comp-row:last-child{border-bottom:none;}
+  .comp-row .result{ color:var(--teal); }
+
+  footer{
+    max-width:980px; margin:0 auto; padding: 60px 24px 90px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid var(--line);
+  }
+  footer a{
+    color:var(--text); text-decoration:none; font-family:'JetBrains Mono', monospace;
+    font-size:0.85rem; border:1px solid var(--line); padding:10px 18px;
+    border-radius:100px; transition: border-color 0.2s, color 0.2s;
+  }
+  footer a:hover{ border-color:var(--amber); color:var(--amber); }
+  footer .foot-note{ color:var(--text-dim); font-size:0.85rem; }
+
+  .reveal{ opacity:0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* ---- Video Intro ---- */
+  html.intro-active, html.intro-active body{ overflow:hidden; height:100%; }
+
+  #site-content{
+    opacity:0;
+    pointer-events:none;
+  }
+  #site-content.revealed{
+    opacity:1;
+    pointer-events:auto;
+    transition: opacity 0.7s ease;
+  }
+
+  #intro{
+    position:fixed; inset:0; z-index:1000;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:#0a0c10;
+    cursor:pointer;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  #intro.intro-hide{
+    opacity:0;
+    transform: scale(1.03);
+    pointer-events:none;
+  }
+  .sig-wrap{
+    position:relative;
+    display:inline-flex;
+    width: min(560px, 82vw);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #signature-video{
+    width:100%;
+    height:auto;
+    display:block;
+    /* If your video has a colored background, use mix-blend-mode: screen; but for true transparency, alpha channel is best */
+    object-fit: contain;
+  }
+  .enter-prompt{
+    margin-top: 46px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color: var(--text-dim);
+    opacity:0;
+    transition: opacity 0.6s ease;
+  }
+  .enter-prompt.show{ opacity:1; }
+  .enter-prompt .dot{
+    display:inline-block; width:6px; height:6px; border-radius:50%;
+    background:var(--teal); margin-left:8px;
+    animation: pulse-dot 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse-dot{
+    0%,100%{ opacity:0.3; } 50%{ opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+<div id="intro">
+  <div class="sig-wrap">
+    <!-- IMPORTANT: Replace 'your-signature-video.webm' with your actual transparent video file -->
+    <!-- Ensure the video has an alpha channel (transparent background). -->
+    <video id="signature-video" src="dhruvsig.webm" autoplay muted playsinline loop style="mix-blend-mode: screen; filter: contrast(1.2) brightness(1.3); width: 100%; height: auto; display: block; object-fit: contain;"></video>
+  </div>
+  <div class="enter-prompt" id="enterPrompt">Click to enter<span class="dot"></span></div>
+</div>
+
+<div id="site-content">
+<div class="bg-grid"></div>
+<div class="node" style="top:12%; left:8%; width:5px; height:5px; background:var(--amber); box-shadow:0 0 12px var(--amber); animation-delay:0s;"></div>
+<div class="node" style="top:30%; left:85%; width:4px; height:4px; background:var(--teal); box-shadow:0 0 10px var(--teal); animation-delay:3s;"></div>
+<div class="node" style="top:70%; left:15%; width:3px; height:3px; background:var(--amber); box-shadow:0 0 8px var(--amber); animation-delay:6s;"></div>
+<div class="node" style="top:55%; left:92%; width:4px; height:4px; background:var(--teal); box-shadow:0 0 10px var(--teal); animation-delay:9s;"></div>
+
+<header>
+  <div class="logo">DHRUV<span>.</span></div>
+  <nav>
+    <a href="#work">Work</a>
+    <a href="#competitions">Competitions</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="ticker-wrap">
+  <div class="ticker" id="ticker"></div>
+</div>
+
+<main>
+  <section class="hero">
+    <span class="eyebrow">// IIT Bombay · Electrical Engineering · Batch 2025–29</span>
+    <h1>Building at the edge of <span class="accent">markets</span> and <span class="accent">machines</span>.</h1>
+    <p class="sub">I'm Dhruv — an EE undergrad with a CS minor, working through option pricing, RL, and market microstructure on the way to quantitative research. This site is a live build log, not a finished product.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">9.08</div><div class="label">CGPA</div></div>
+      <div class="stat"><div class="num">AIR 293</div><div class="label">JEE Advanced</div></div>
+      <div class="stat"><div class="num">22/18,803</div><div class="label">IMC Prosperity 4</div></div>
+      <div class="stat"><div class="num">Top 40</div><div class="label">RMO Maharashtra</div></div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="section-head reveal">
+      <span class="eyebrow">// Selected work</span>
+      <h2>Projects &amp; research</h2>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-top">
+        <h3>American Put Option Pricing</h3>
+        <span class="tag">Jane Street SEE</span>
+      </div>
+      <p>A 9-week structured build from first principles: binomial tree pricing and hedge-ratio derivation, then a from-scratch NumPy neural net, an MDP environment for the exercise decision, and a DQN policy benchmarked against binomial, always-hold, and random baselines.</p>
+      <div class="meta">binomial trees · MDP / RL · PyTorch</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal">
+        <div class="card-top"><h3>FinBERT Volatility Forecasting</h3><span class="tag">Jane Street SEE</span></div>
+        <p>Applying transformer-based sentiment models to forecast volatility, built as part of the SEE application portfolio.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-top"><h3>Sequential Decision-Making URA</h3><span class="tag">DMML Lab</span></div>
+        <p>Undergraduate research assistantship starting Semester 3, preceded by working through CS229 as preparation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="competitions">
+    <div class="section-head reveal">
+      <span class="eyebrow">// Track record</span>
+      <h2>Competitions</h2>
+    </div>
+    <div class="card reveal">
+      <div class="comp-row"><span>IMC Prosperity 4 (Global)</span><span class="result">Rank 22 / 18,803</span></div>
+      <div class="comp-row"><span>Jump Trading Probability Cup</span><span class="result">Devigged-market Poisson model</span></div>
+      <div class="comp-row"><span>IICPC Delta OA — Trading Track</span><span class="result">Rank 207</span></div>
+      <div class="comp-row"><span>RMO — Maharashtra</span><span class="result">Top 40</span></div>
+      <div class="comp-row"><span>INAO</span><span class="result">Top 288</span></div>
+      <div class="comp-row"><span>Quantfest 2026</span><span class="result">Prelim — Aug 23</span></div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="foot-note">Last rebuilt manually — this page grows one commit at a time.</div>
+  <a href="mailto:you@example.com">Say hello →</a>
+</footer>
+</div>
+
+<script>
+  // ---- Video Intro Logic ----
+  document.documentElement.classList.add('intro-active');
+
+  const intro = document.getElementById('intro');
+  const siteContent = document.getElementById('site-content');
+  const enterPrompt = document.getElementById('enterPrompt');
+
+  function showEnterPrompt(){
+    enterPrompt.classList.add('show');
+  }
+
+  function dismissIntro(){
+    intro.classList.add('intro-hide');
+    document.documentElement.classList.remove('intro-active');
+    siteContent.classList.add('revealed');
+    setTimeout(() => { intro.style.display = 'none'; }, 650);
+  }
+  
+  // Clicking the intro (or video) dismisses it, revealing the site
+  intro.addEventListener('click', dismissIntro);
+
+  // If you want it to automatically dismiss after the video ends, you can use:
+  // const video = document.getElementById('signature-video');
+  // video.addEventListener('ended', () => { setTimeout(dismissIntro, 500); });
+  
+  // But for a looped video, just let the user click to enter, or add a button.
+  // I have kept the "Click to enter" prompt, so I will show it immediately since it's a video.
+  showEnterPrompt();
+
+  // Ticker content — duplicated once for seamless loop
+  const stats = [
+    "CGPA 9.08", "JEE ADV AIR 293", "IMC PROSPERITY 4 · 22/18,803",
+    "RMO MAHARASHTRA · TOP 40", "INAO · TOP 288", "IICPC DELTA OA · RANK 207",
+    "QUANTFEST 2026 · AUG 23", "JANE STREET SEE · HK TRACK"
+  ];
+  const colors = ["up","flat"];
+  const ticker = document.getElementById('ticker');
+  const build = stats.map((s,i)=>`<span class="${colors[i%2]}">${s}</span>`).join("");
+  ticker.innerHTML = build + build; // duplicate for seamless scroll
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
